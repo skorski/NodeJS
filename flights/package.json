@@ -4,7 +4,8 @@
   "description": "A flight status thingy",
   "main": "app.js",
   "dependencies": {
-    "express": "~4.11.1"
+    "express": "~4.11.1",
+    "jade": "*"
   },
   "devDependencies": {},
   "scripts": {
