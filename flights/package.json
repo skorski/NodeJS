@@ -1,0 +1,16 @@
+{
+  "name": "flights",
+  "version": "0.0.0",
+  "description": "A flight status thingy",
+  "main": "app.js",
+  "dependencies": {
+    "express": "~4.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Dan Skorski <skorsk@gmail.com>",
+  "license": "BSD-2-Clause"
+}
