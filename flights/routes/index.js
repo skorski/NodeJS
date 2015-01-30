@@ -3,6 +3,8 @@
  * GET home page.
  */
 
+var FlightSchema = require('../schema/flight');
+
 module.exports = function (flights) {
 	var flight = require('../flight');
 
@@ -14,6 +16,8 @@ module.exports = function (flights) {
 
 	functions.flight = function(req, res){
 		var number = req.params.number;
+
+		req.session.lastNumber = number;
 
 		if (typeof flights[number] === 'undefined') {
 			res.status(404).json({status: 'error'});
@@ -29,6 +33,17 @@ module.exports = function (flights) {
 			res.status(404).json({status: 'error'});
 		} else {
 			flights[number].triggerArrive();
+			var record = new FlightSchema(
+					flights[number].getInformation()
+					)
+			record.save(function(err) {
+				if (err) {
+					console.log(err);
+					res.status(500).json({status: 'Failed'});					
+				} else {
+					res.json({status: 'success'});
+				}
+			});
 			res.json({status: 'done'});
 		}
 	};
@@ -37,6 +52,23 @@ module.exports = function (flights) {
 		res.render('list', {
 			title: 'All Flights', 
 			flights: flights});
+	};
+
+	functions.arrivals = function (req, res) {
+		FlightSchema.find()
+			.setOptions({sort: 'actualArrive'})
+			.exec(function(err, arrivals) {
+				if (err) {
+					console.log(err);
+					res.status(500).json({status: 'error'});
+				} else {
+						res.render('arrivals', {
+						title: 'Arrivals',
+						arrivals: arrivals,
+						lastNumber: req.session.lastNumber
+					});
+				}
+			});
 	};
 
 	return functions;
