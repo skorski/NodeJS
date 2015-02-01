@@ -1,0 +1,38 @@
+doctype html
+html
+	script(src="https://cdn.socket.io/socket.io-1.3.2.js")
+	script(src="http://code.jquery.com/jquery-2.0.3.min.js")
+	head
+		title= title
+		link(rel="stylesheet", href="bootstrap.min.css")
+
+		script(type='text/javascript').
+			var socket = io.connect();
+		
+			$(function() {
+			$("#register_button").on("click", function(event) {
+			event.preventDefault();
+			socket.emit("register", {
+			phone_number: $("#phone_number").val()
+			});
+			});
+		
+			$("#verify_button").on("click", function(event) {
+			event.preventDefault();
+			socket.emit("verify", {
+			phone_number: $("#phone_number").val(),
+			code: $("#code").val()
+			});
+			});
+		
+			socket.on("code_generated", function(data) {
+			$("#register").fadeOut();
+			$("#verify").fadeIn();
+			$("#update").fadeOut();
+			$("#register_instructions").fadeOut();
+			$("#verify_instructions").fadeIn();
+			});
+
+	body
+		div.container
+			block content

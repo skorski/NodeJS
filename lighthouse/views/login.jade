@@ -1,0 +1,20 @@
+extends layout
+
+block content
+	h1=title
+
+	input(type='textbox' placeholder='1-509-555-1212')
+
+	button.btn(data-action="bea") Signup
+
+	strong#update(style="display: none")
+	p#register_instructions Enter your phone number:
+	p#verify_instructions(style="display: none") Enter your verification code:
+	div#register
+		form
+			input(type="text")#phone_number
+			input(type="submit", value="Register")#register_button
+	div#verify(style="display: none")
+		form
+			input(type="text")#code
+			input(type="submit", value="Verify")#verify_button
